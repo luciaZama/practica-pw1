@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {Publication} = require('./Publication.js');
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -21,7 +22,8 @@ const UserSchema = new mongoose.Schema({
             message: "Please enter a valid email"
         },
         required: [true, "Email required"]
-    }
+    },
+    publications: [{type: Schema.Types.ObjectId, ref: Publication}]
 });
 
 module.exports = mongoose.model('User', UserSchema);
