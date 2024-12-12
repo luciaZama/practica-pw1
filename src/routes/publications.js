@@ -6,8 +6,8 @@ const Publication = require('../models/Publication');
 
 // GET all publications
 router.get('/publications', async (req, res) => {
-    const allPublications = await Publication.find();
-    res.render();
+    const allPublications = await Publication.find().lean().sort({date: 'desc'});
+    res.render('publications/all-publications', {allPublications});
 });
 
 // GET new publication
