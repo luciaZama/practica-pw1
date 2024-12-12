@@ -1,9 +1,11 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const dotenv = require("dotenv");
 
 // initialization
 const app = express();
@@ -18,7 +20,7 @@ app.engine('.hbs', exphbs.engine({
     extname: '.hbs'
 }));
 app.set('view engine', '.hbs');
-
+dotenv.config();
 
 // middlewares
 app.use(bodyParser.json());
@@ -41,12 +43,11 @@ app.use(require('./routes/users'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // mongo connection
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+mongoose.connect('mongodb://127.0.0.1:27017/project-pw')
+.then(db => console.log('Base de datos conectada'))
+.catch(err => console.log(err));
 
 // server initialization
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(app.get('port'), () => {
+    console.log('Servidor conectado al puerto ', app.get('port'));
+})
