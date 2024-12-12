@@ -6,7 +6,7 @@ const Publication = require('../models/Publication');
 
 // GET all publications
 router.get('/publications', async (req, res) => {
-    res.send('Muestra las publicaciones');
+    await Publication.find()
 });
 
 // GET new publication
@@ -37,6 +37,7 @@ router.post('/publications/new-publication', async (req, res) => {
           } else {
             const newPublication = new Publication({title, content});
             await newPublication.save();
+            res.redirect('/publications');
           }
     } catch (error) {
         console.error('An error occurred:', error);
