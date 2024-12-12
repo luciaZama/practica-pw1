@@ -25,7 +25,7 @@ dotenv.config();
 // middlewares
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended: false}));
-app.use(methodOverride('method'));
+app.use(methodOverride('_method'));
 app.use(session({
     secret: 'mysecretapp',
     resave: true,
