@@ -43,7 +43,7 @@ app.use(require('./routes/users'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // mongo connection
-mongoose.connect('mongodb://127.0.0.1:27017/project-pw')
+mongoose.connect('mongodb://localhost:27017/project-pw')
 .then(db => console.log('Base de datos conectada'))
 .catch(err => console.log(err));
 
