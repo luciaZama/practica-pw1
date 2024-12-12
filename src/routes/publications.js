@@ -46,5 +46,11 @@ router.post('/publications/new-publication', async (req, res) => {
     }
 });
 
+// EDITS a publication
+router.get('/publications/edit/:id', async (req, res) => {
+    const publication = await Publication.findById(req.params.id);
+    res.render('publications/edit-publication', {publication});
+});
+
 module.exports = router;
 
