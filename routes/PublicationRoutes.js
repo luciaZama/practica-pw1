@@ -24,3 +24,25 @@ router.get('/', async (req, res) => {
 });
 
 // GET publication by author
+// TODO
+
+// POST a new publication
+router.post('/', async (req, res) => {
+    const publication = new Publication({
+        author: req.body.author,
+        title: req.body.title,
+        text: req.body.text,
+    });
+
+    try {
+        const newPublication = await publication.save();
+        res.status(201).json(newPublication);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
+
+// DELETE a publication
+router.delete('/', async (req, res) => {
+    
+})
