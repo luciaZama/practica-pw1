@@ -36,6 +36,7 @@ router.post('/publications/new-publication', async (req, res) => {
             });
           } else {
             const newPublication = new Publication({title, content});
+            newPublication.save();
           }
     } catch (error) {
         console.error('An error occurred:', error);
