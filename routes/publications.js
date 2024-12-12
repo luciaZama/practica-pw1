@@ -14,17 +14,32 @@ router.get('/publications/add', async (req, res) => {
 
 // POST a new publication
 router.post('/publications/new-publication', async (req, res) => {
-    const publication = new Publication({
-        author: req.body.author,
-        title: req.body.title,
-        text: req.body.text,
-    });
-
     try {
-        const newPublication = await publication.save();
-        res.status(201).json(newPublication);
-    } catch (err) {
-        res.status(500).json({message: err.message});
+        const { title, content } = req.body;
+        const errors = [];
+
+        if (!title) {
+            errors.push({ text: 'Porfavor escribe un título' });
+        } 
+
+        if (!content) {
+            errors.push({ text: 'Porfavor escribe los contenidos de la publicación'});
+        }
+
+        if (errors.length > 0) {
+            res.render('publications/new-publication', {
+              errors,
+              title,
+              content
+            });
+          } else {
+            res.send('ok');
+          }
+    } catch (error) {
+        console.error('An error occurred:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
+module.exports = router;
 
