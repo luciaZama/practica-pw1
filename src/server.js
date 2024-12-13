@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
-const dotenv = require("dotenv");
+
 
 // initialization
 const app = express();
@@ -20,7 +20,6 @@ app.engine('.hbs', exphbs.engine({
     extname: '.hbs'
 }));
 app.set('view engine', '.hbs');
-dotenv.config();
 
 // middlewares
 app.use(bodyParser.json());
