@@ -48,14 +48,14 @@ router.post('/publications/new-publication', async (req, res) => {
 
 // EDITS a publication
 router.get('/publications/edit/:id', async (req, res) => {
-    const publication = await Publication.findById(req.params.id);
+    const publication = await Publication.findById(req.params.id).lean();
     res.render('publications/edit-publication', {publication});
 });
 
 // PUTS a publication
 router.put('/publications/edit-publication/:id', async (req, res) => {
     const {title, content} = req.body;
-    await Publication.findByIdAndUpdate(req.params.id, {title, content});
+    await Publication.findByIdAndUpdate(req.params.id, {title, content}).lean();
     res.redirect('/publications');
 });
 
