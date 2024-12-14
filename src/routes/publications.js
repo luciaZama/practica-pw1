@@ -38,6 +38,7 @@ router.post('/publications/new-publication', async (req, res) => {
           } else {
             const newPublication = new Publication({title, content});
             await newPublication.save();
+            req.flash('success_msg', 'Publicación realizada con éxito');
             res.redirect('/publications');
           }
     } catch (error) {
@@ -52,16 +53,18 @@ router.get('/publications/edit/:id', async (req, res) => {
     res.render('publications/edit-publication', {publication});
 });
 
-// PUTS a publication
+// UPDATES a publication
 router.put('/publications/edit-publication/:id', async (req, res) => {
     const {title, content} = req.body;
     await Publication.findByIdAndUpdate(req.params.id, {title, content}).lean();
+    req.flash('success_msg', 'Publicación editada con éxito');
     res.redirect('/publications');
 });
 
 // DELETES a publication
 router.delete('/publications/delete/:id', async (req, res) => {
     await Publication.findByIdAndDelete(req.params.id).lean();
+    req.flash('success_msg', 'Publicación eliminada con éxito');
     res.redirect('/publications');
 });
 
