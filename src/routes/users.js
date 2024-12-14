@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../models/User');
 
 // GETS user login
 router.get('/users/login', (req, res) => {
@@ -44,7 +45,10 @@ router.post('/users/register', async (req, res) => {
                 confirm_password
             });
         } else {
-
+            const newUser = new User({username, name, surnames, email, password});
+            newUser.password = await newUser.encryptPassword(password);
+            await newUser.save()
+            req.flash('success_msg', 'Registrado con éxito');
         }
     } catch {
         console.error('An error occurred:', error);
