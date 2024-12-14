@@ -59,5 +59,11 @@ router.put('/publications/edit-publication/:id', async (req, res) => {
     res.redirect('/publications');
 });
 
+// DELETES a publication
+router.delete('/publications/delete/:id', async (req, res) => {
+    await Publication.findByIdAndDelete(req.params.id).lean();
+    res.redirect('/publications');
+});
+
 module.exports = router;
 
