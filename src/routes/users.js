@@ -15,10 +15,10 @@ router.get('/users/register', (req, res) => {
 // POSTS user registration
 router.post('/users/register', async (req, res) => {
     try {
-        const {username, name, surnames, email, password, confirm_password} = req.body;
+        const {name, surnames, email, password, confirm_password} = req.body;
         const errors = [];
-        const info = [username, name, surnames, email];
-        const infoEsp = ['Nombre de usuario', 'Nombre', 'Apellidos', 'Email'];
+        const info = [name, surnames, email];
+        const infoEsp = ['Nombre', 'Apellidos', 'Email'];
 
         for (let i = 0; i < info.length; i++) {
             if (info[i].length <= 0) {
@@ -37,7 +37,6 @@ router.post('/users/register', async (req, res) => {
         if (errors.length > 0) {
             res.render('users/register', {
                 errors, 
-                username, 
                 name, 
                 surnames, 
                 email, 
@@ -45,12 +44,20 @@ router.post('/users/register', async (req, res) => {
                 confirm_password
             });
         } else {
-            const newUser = new User({username, name, surnames, email, password});
-            newUser.password = await newUser.encryptPassword(password);
-            await newUser.save()
-            req.flash('success_msg', 'Registrado con éxito');
+
+            const userEmail = await User.findOne({email: email}).lean();
+            if (userEmail) {
+                req.flash('error_msg', 'Este email ya se encuentra en uso');
+                res.redirect('/users/register');
+            } else {
+                const newUser = new User({name, surnames, email, password});
+                newUser.password = await newUser.encryptPassword(password);
+                await newUser.save()
+                req.flash('success_msg', 'Registrado con éxito');
+                res.redirect('/users/login');
+            }
         }
-    } catch {
+    } catch (error) {
         console.error('An error occurred:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
