@@ -102,4 +102,15 @@ router.post('/users/register', async (req, res) => {
     
 });
 
+router.get('/users/logout', async (req, res) => {
+    try {
+        res.clearCookie('token');
+        req.flash('success_msg', 'Has cerrado sesión correctamente');
+        res.redirect('/'); 
+    } catch (error) {
+        console.error('Error during logout:', error);
+        res.status(500).json({ message: 'Error al cerrar sesión' });
+    }
+});
+
 module.exports = router;

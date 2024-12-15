@@ -13,8 +13,9 @@
 </head>
 <body>
 
-    <p>Navegación</p>
-    <main class="container">
+    {{> navigation }}
+
+    <main class="container p-4">
         {{> messages }}
         {{> errors }}
         {{{ body }}}
