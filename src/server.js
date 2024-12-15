@@ -6,7 +6,8 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
-
+require('dotenv').config();
+const cookieParser = require('cookie-parser');
 
 // initialization
 const app = express();
@@ -24,14 +25,16 @@ app.set('view engine', '.hbs');
 
 // middlewares
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(methodOverride('_method'));
+app.use(methodOverride('_method')); // los formularios también pueden enviar put o delete
 app.use(session({
-    secret: 'mysecretapp',
+    secret: 'mysecreteapp',
     resave: true,
     saveUninitialized: true
 }));
 app.use(flash());
+app.use(cookieParser());
 
 // global variables
 app.use((req, res, next) => {
