@@ -5,7 +5,7 @@ const { ensureAuthenticated } = require('../middlewares/auth');
 
 // GET all publications
 router.get('/publications', ensureAuthenticated, async (req, res) => {
-    const allPublications = await Publication.find().lean().sort({date: 'desc'});
+    const allPublications = await Publication.find({userId: req.user.id}).lean().sort({date: 'desc'});
     res.render('publications/all-publications', {allPublications});
 });
 
@@ -35,7 +35,7 @@ router.post('/publications/new-publication', ensureAuthenticated, async (req, re
               content
             });
           } else {
-            const newPublication = new Publication({title, content});
+            const newPublication = new Publication({title, content, userId: req.user.id});
             await newPublication.save();
             req.flash('success_msg', 'Publicación realizada con éxito');
             res.redirect('/publications');
@@ -48,21 +48,21 @@ router.post('/publications/new-publication', ensureAuthenticated, async (req, re
 
 // EDITS a publication
 router.get('/publications/edit/:id', ensureAuthenticated, async (req, res) => {
-    const publication = await Publication.findById(req.params.id).lean();
+    const publication = await Publication.findOne({_id: req.params.id, userId: req.user.id}).lean();
     res.render('publications/edit-publication', {publication});
 });
 
 // UPDATES a publication
 router.put('/publications/edit-publication/:id', ensureAuthenticated, async (req, res) => {
     const {title, content} = req.body;
-    await Publication.findByIdAndUpdate(req.params.id, {title, content}).lean();
+    await Publication.findOnedAndUpdate({_id: req.params.id, userId: req.user.id}, {title, content}).lean();
     req.flash('success_msg', 'Publicación editada con éxito');
     res.redirect('/publications');
 });
 
 // DELETES a publication
 router.delete('/publications/delete/:id', ensureAuthenticated, async (req, res) => {
-    await Publication.findByIdAndDelete(req.params.id).lean();
+    await Publication.findOneAndDelete({_id: req.params.id, userId: req.user.id}).lean();
     req.flash('success_msg', 'Publicación eliminada con éxito');
     res.redirect('/publications');
 });
