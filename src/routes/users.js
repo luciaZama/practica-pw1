@@ -4,7 +4,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { masterKey } = require('../../configuration');
-const {ensureAuthenticated} = require('../middlewares/auth')
+
 
 // GETS user login
 router.get('/users/login', (req, res) => {
@@ -28,7 +28,6 @@ router.post('/users/login', async (req, res) => {
             return res.redirect('/users/login');
         }
 
-        console.log('Valor de masterKey:', masterKey);
         if (!masterKey) {
             throw new Error('La clave secreta (masterKey) no está definida.');
         }

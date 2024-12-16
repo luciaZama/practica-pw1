@@ -55,7 +55,7 @@ router.get('/publications/edit/:id', ensureAuthenticated, async (req, res) => {
 // UPDATES a publication
 router.put('/publications/edit-publication/:id', ensureAuthenticated, async (req, res) => {
     const {title, content} = req.body;
-    await Publication.findOnedAndUpdate({_id: req.params.id, userId: req.user.id}, {title, content}).lean();
+    await Publication.findOneAndUpdate({_id: req.params.id, userId: req.user.id}, {title, content}).lean();
     req.flash('success_msg', 'Publicación editada con éxito');
     res.redirect('/publications');
 });
@@ -63,7 +63,6 @@ router.put('/publications/edit-publication/:id', ensureAuthenticated, async (req
 // DELETES a publication
 router.delete('/publications/delete/:id', ensureAuthenticated, async (req, res) => {
     await Publication.findOneAndDelete({_id: req.params.id, userId: req.user.id}).lean();
-    req.flash('success_msg', 'Publicación eliminada con éxito');
     res.redirect('/publications');
 });
 

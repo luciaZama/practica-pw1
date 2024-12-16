@@ -10,7 +10,8 @@ function ensureAuthenticated(req, res, next) {
             : req.cookies.token; // Token desde las cookies
 
         if (!token) {
-            return res.status(401).json({ message: 'No token provided. Unauthorized.' });
+            req.flash('error_msg', 'No Autorizado');
+            return res.redirect('/users/login');
         }
 
         // Verificar el token
@@ -21,7 +22,7 @@ function ensureAuthenticated(req, res, next) {
         next();
     } catch (error) {
         console.error('Error en ensureAuthenticated:', error.message);
-        return res.status(401).json({ message: 'Invalid or expired token.' });
+        return res.redirect('/users/login');
     }
 }
 
