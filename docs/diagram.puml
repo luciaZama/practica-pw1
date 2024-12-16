@@ -1,0 +1,69 @@
+@startuml architectureDiagram
+
+package "Views" {
+    package "layouts" {
+        class main 
+    }
+
+    package "partials" {
+        class errors 
+        class footer 
+        class messages 
+        class navigation 
+    }
+    
+    package "publications" {
+      class all-publications 
+      class new-publication 
+      class view-publication 
+    }
+    
+    package "users" {
+      class "login" 
+      class "register" 
+    }
+    
+    class "index" 
+      
+  }
+
+package "Routes" {
+  class index {}
+  class publications {}
+  class users {}
+}
+
+package "Public" {
+  package "css" {
+    class main 
+  }
+  package "js" {
+    class search 
+  }
+}
+
+package "Models" {
+  class Publication
+  class User 
+}
+
+package "Middlewares" {
+  class auth 
+}
+
+class server {}
+
+Routes --> Middlewares
+Routes --> Models
+Views --> Public
+Views.layouts --> Views.partials
+Views.layouts --> Views.publications
+Views.layouts --> Views.users
+Views.layouts --> Views.index
+server --> Views
+server --> Public
+server --> Routes
+server --> Models
+
+
+@enduml
