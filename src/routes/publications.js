@@ -66,5 +66,48 @@ router.delete('/publications/delete/:id', ensureAuthenticated, async (req, res) 
     res.redirect('/publications');
 });
 
+// GET for publications on search bar
+router.get('/publications/search', ensureAuthenticated, async (req, res) => {
+    try {
+        const { title } = req.query; 
+
+        if (!title || title.trim() === '') {
+            return res.json([]); 
+        }
+
+        const publications = await Publication.find({
+            title: { $regex: title, $options: 'i' }, 
+            userId: { $ne: req.user.id }, 
+        })
+            .limit(5) 
+            .select('title _id'); 
+
+        res.json(publications); 
+    } catch (error) {
+        console.error('Error al buscar publicaciones:', error.message);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+});
+
+// GETS specific publication
+router.get('/publications/view/:id', ensureAuthenticated, async (req, res) => {
+    try {
+        const publication = await Publication.findOne({ _id: req.params.id })
+            .populate('userId', 'name surnames') 
+            .lean();
+
+        if (!publication) {
+            req.flash('error_msg', 'Publicación no encontrada');
+            return res.redirect('/publications');
+        }
+        res.render('publications/view-publication', { publication });
+    } catch (error) {
+        req.flash('error_msg', 'Error interno del servidor');
+        res.redirect('/publications');
+    }
+});
+
+
+
 module.exports = router;
 

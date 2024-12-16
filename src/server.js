@@ -8,6 +8,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
+const { ensureAuthenticated } = require('./middlewares/auth');
 
 // initialization
 const app = express();
@@ -42,11 +43,15 @@ app.use((req, res, next) => {
     res.locals.error_msg = req.flash('error_msg');
     next();
 });
+app.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+});
 
 // routes
 app.use(require('./routes/index'));
-app.use(require('./routes/publications'));
 app.use(require('./routes/users'));
+app.use(require('./routes/publications'));
 
 // static files
 app.use(express.static(path.join(__dirname, 'public')));

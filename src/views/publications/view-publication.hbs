@@ -1,0 +1,16 @@
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>{{publication.title}}</h3>
+        </div>
+        <div class="card-body">
+            <p>{{publication.content}}</p>
+        </div>
+        <div class="card-footer text-left">
+            <p class="text-muted">Publicado por: {{publication.userId.name}} {{publication.userId.surnames}}</p>
+            <a href="/publications" class="btn btn-secondary">Volver</a>
+        </div>
+    </div>
+</div>
+
+
