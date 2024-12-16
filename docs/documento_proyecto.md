@@ -6,5 +6,7 @@ En cuanto al registro, el usuario ha de introducir su nombre, apellidos, un emai
 
 Al acceder a su cuenta, cada usuario puede ver sus publicaciones, crear nuevas, editarlas, eliminarlas o incluso, cerrar sesión. Otros usuarios no pueden interferir en las notas de otros, solo puede intervenir en las suyas propias, gracias a los métodos de autenticación y JWT Tokens.
 
+Los usuarios que ya han echo login buscar y ver otras publicaciones hechas por otros usuarios en la barra de navegación.
+
 ## Diagrama de la Arquitectura
 
