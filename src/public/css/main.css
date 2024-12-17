@@ -5,7 +5,7 @@ body {
 }
 
 .custom-card {
-    max-width: 500px; /* Ajusta el ancho máximo */
-    margin: 15px auto; /* Añade margen y centra */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Mejor estética */
+    max-width: 500px; 
+    margin: 15px auto; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }

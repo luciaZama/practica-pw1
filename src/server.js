@@ -8,7 +8,6 @@ const session = require('express-session');
 const flash = require('connect-flash');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
-const { ensureAuthenticated } = require('./middlewares/auth');
 
 // initialization
 const app = express();
@@ -39,12 +38,9 @@ app.use(cookieParser());
 
 // global variables
 app.use((req, res, next) => {
+    res.locals.user = req.user;
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
-    next();
-});
-app.use((req, res, next) => {
-    res.locals.user = req.user;
     next();
 });
 

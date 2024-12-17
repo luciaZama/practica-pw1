@@ -101,6 +101,7 @@ router.post('/users/register', async (req, res) => {
     
 });
 
+// GETS user logout
 router.get('/users/logout', async (req, res) => {
     try {
         res.clearCookie('token');
